@@ -11,18 +11,12 @@ void inicializarVoos(aviao*& filaEntrada) {
         num = i + rand() % 500;
         prior = rand() % 3 + 1;
         tempOcupacao = rand() % 10 + 1;
-        tempChegada = rand() % 10;
+        tempChegada = rand() % 50;
         filaEntrada = arrumaFilaEspera(filaEntrada, num, prior, tempOcupacao, tempChegada);
     }
 }
 
 int main() {
-    Color::Modifier red(Color::FG_RED);
-    Color::Modifier def(Color::FG_DEFAULT);
-    Color::Modifier green(Color::FG_GREEN);
-
-
-
     pista pistas[3];
     int Tempo = 0, num, prior, tempoOcupacao, tempoChegada;
     inicializapista(pistas);
@@ -32,30 +26,35 @@ int main() {
     processarEntrada(avioes, pistas, Tempo);
 
     while (pistas[0].filaEspera != NULL || pistas[1].filaEspera != NULL || pistas[2].filaEspera != NULL) {
-        cout << red << "\nTempo: " << Tempo << "\n" << def;
+        cout << "\nTempo: " << Tempo << "\n";
         for (int i = 0; i < 3; ++i) {
+            int num, prior, tempoOcupacao, tempoChegada;
+
             if (!pistas[i].ocupada && pistas[i].filaEspera != NULL) {
                 pistas[i].filaEspera = removeFE(pistas[i].filaEspera, &num, &prior, &tempoOcupacao, &tempoChegada);
                 pistas[i].ocupada = true;
                 pistas[i].tempoOcupacao = tempoOcupacao;
+                pistas[i].aviaoAtual = new aviao{num, prior, tempoOcupacao, tempoChegada, NULL};
             } else if (pistas[i].ocupada) {
                 pistas[i].tempoOcupacao -= 4;
                 if (pistas[i].tempoOcupacao <= 0) {
                     pistas[i].ocupada = false;
+                    delete pistas[i].aviaoAtual; // Liberar memória do avião que estava ocupando a pista
+                    pistas[i].aviaoAtual = NULL;
                 }
             }
-            
-            if (pistas[i].ocupada){
-                cout << green << "Pista " << pistas[i].nome << def << " ocupada pelo aviao com num: " << num << ", prioridade: " << prior << ", faltam " << pistas[i].tempoOcupacao << " tempos.\n";
+
+            if (pistas[i].ocupada && pistas[i].aviaoAtual != NULL) {
+                cout << "Pista " << pistas[i].nome << " ocupada pelo aviao com num: " << pistas[i].aviaoAtual->num << ", prioridade: " << pistas[i].aviaoAtual->prior << ", faltam " << pistas[i].tempoOcupacao << " tempos.\n";
             } else {
-                cout <<green << "Pista " << pistas[i].nome << def << " esta livre.\n";
+                cout << "Pista " << pistas[i].nome << " esta livre.\n";
             }
 
-            if (pistas[i].filaEspera != NULL){
-                a = pistas[i].filaEspera;
-                cout << "Proximo aviao na fila da pista " << pistas[i].nome << def << " num: " << a->num << ", prioridade: " << a->prior << ", ocupara a pista por " << a->tempOcupacao << ", que chegou no tempo " << a->tempoChegada << "." << "\n\n";
-            } else{
-                cout << "Nenhum aviao esperando na fila da pista " << pistas[i].nome << def << ".\n";
+            if (pistas[i].filaEspera != NULL) {
+                aviao* a = pistas[i].filaEspera;
+                cout << "Proximo aviao na fila da pista " << pistas[i].nome << " num: " << a->num << ", prioridade: " << a->prior << ", ocupara a pista por " << a->tempOcupacao << ", que chegou no tempo " << a->tempoChegada << "." << "\n\n";
+            } else {
+                cout << "Nenhum aviao esperando na fila da pista " << pistas[i].nome << ".\n";
             }
         }
 
