@@ -1,6 +1,4 @@
 #include <iostream>
-#include <ostream>
-
 using namespace std;
 
 struct aviao {
@@ -16,6 +14,7 @@ struct pista {
     bool ocupada;
     int tempoOcupacao;
     aviao* filaEspera;
+    aviao* aviaoAtual; 
 };
 
 void inicializapista(pista p[]) {
@@ -24,6 +23,7 @@ void inicializapista(pista p[]) {
         p[i].ocupada = false;
         p[i].tempoOcupacao = 0;
         p[i].filaEspera = NULL;
+        p[i].aviaoAtual = NULL;
     }
 }
 
@@ -77,6 +77,7 @@ aviao* removeFE(aviao* L, int* n, int* prior, int* tempoOcupacao, int* tempoCheg
     }
     return L;
 }
+
 void processarEntrada(aviao*& filaEntrada, pista pistas[], int tempoAtual) {
     int pistasF;
     while (filaEntrada != NULL) {
@@ -86,26 +87,3 @@ void processarEntrada(aviao*& filaEntrada, pista pistas[], int tempoAtual) {
         pistas[pistasF].filaEspera = arrumaFilaEspera(pistas[pistasF].filaEspera, num, prior, tempoOcupacao, tempoChegada);
     }
 }
-
-namespace Color {
-    enum Code {
-        FG_RED      = 31,
-        FG_GREEN    = 32,
-        FG_BLUE     = 34,
-        FG_DEFAULT  = 39,
-        BG_RED      = 41,
-        BG_GREEN    = 42,
-        BG_BLUE     = 44,
-        BG_DEFAULT  = 49
-    };
-    class Modifier {
-        Code code;
-    public:
-        Modifier(Code pCode) : code(pCode) {}
-        friend std::ostream&
-        operator<<(std::ostream& os, const Modifier& mod) {
-            return os << "\033[" << mod.code << "m";
-        }
-    };
-}
-
