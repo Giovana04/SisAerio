@@ -17,6 +17,10 @@ void inicializarVoos(aviao*& filaEntrada) {
 }
 
 int main() {
+    Color::Modifier red(Color::FG_RED);
+    Color::Modifier def(Color::FG_DEFAULT);
+    Color::Modifier green(Color::FG_GREEN);
+    
     pista pistas[3];
     int Tempo = 0, num, prior, tempoOcupacao, tempoChegada;
     inicializapista(pistas);
@@ -26,7 +30,7 @@ int main() {
     processarEntrada(avioes, pistas, Tempo);
 
     while (pistas[0].filaEspera != NULL || pistas[1].filaEspera != NULL || pistas[2].filaEspera != NULL) {
-        cout << "\nTempo: " << Tempo << "\n";
+        cout << red <<"\nTempo: " << Tempo << "\n"<< def;
         for (int i = 0; i < 3; ++i) {
             int num, prior, tempoOcupacao, tempoChegada;
 
@@ -45,9 +49,9 @@ int main() {
             }
 
             if (pistas[i].ocupada && pistas[i].aviaoAtual != NULL) {
-                cout << "Pista " << pistas[i].nome << " ocupada pelo aviao com num: " << pistas[i].aviaoAtual->num << ", prioridade: " << pistas[i].aviaoAtual->prior << ", faltam " << pistas[i].tempoOcupacao << " tempos.\n";
+                cout << green << "Pista " << pistas[i].nome << def <<" ocupada pelo aviao com num: " << pistas[i].aviaoAtual->num << ", prioridade: " << pistas[i].aviaoAtual->prior << ", faltam " << pistas[i].tempoOcupacao << " tempos.\n";
             } else {
-                cout << "Pista " << pistas[i].nome << " esta livre.\n";
+                cout << green << "Pista " << pistas[i].nome << def << " esta livre.\n";
             }
 
             if (pistas[i].filaEspera != NULL) {
