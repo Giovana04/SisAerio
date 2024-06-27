@@ -1,8 +1,10 @@
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
+#include <iomanip>
 #include "estrutura.h"
 using namespace std;
+using std::setw;
 
 void inicializarVoos(aviao*& filaEntrada) {
     int num, prior, tempOcupacao, tempChegada;
@@ -51,17 +53,20 @@ int main() {
             }
 
             if (pistas[i].ocupada && pistas[i].aviaoAtual != NULL) {
-                cout << green << "Pista " << pistas[i].nome << def <<" ocupada pelo aviao com num: " << pistas[i].aviaoAtual->num << ", prioridade: " << pistas[i].aviaoAtual->prior << ", faltam " << pistas[i].tempoOcupacao << " tempos.";
+                cout << green << setw(5) << "Pista" << pistas[i].nome << def << setw(15) << "Numero" << setw(15) << "Prioridade" << setw(15) << "T. Chegada" << setw(15) << "T. Ocupacao"
+                     <<"\nAviao atual"<< setw(8) <<pistas[i].aviaoAtual->num << setw(13)<< pistas[i].aviaoAtual->prior << setw(15) << pistas[i].aviaoAtual->tempoChegada<< setw(15) <<pistas[i].tempoOcupacao << endl;
             } else {
-                cout << green << "Pista " << pistas[i].nome << def << " esta livre.";
-            }
+                cout << green << setw(5) << "Pista" << pistas[i].nome << def << setw(15) << "Numero" << setw(15) << "Prioridade" << setw(15) << "T. Chegada" << setw(15) << "T. Ocupacao"
+                     <<"\nAviao atual"<< setw(8) << "-" << setw(13)<< "-" << setw(15) << "-"<< setw(15) <<"-" << endl;
+
+                    }
 
             if (pistas[i].filaEspera != NULL) {
                 a = pistas[i].filaEspera;
                 cout << blue << "\nLista de espera completa: \n" <<def; 
                 while (pistas[i].filaEspera != NULL)
                 {
-                    cout << "Numero do aviao: " << pistas[i].filaEspera->num << ", prioridade: "<< pistas[i].filaEspera->prior << ", tempo de chegada: "<< pistas[i].filaEspera->tempoChegada << ", tempo que ocupara a pista: " << pistas[i].filaEspera->tempOcupacao << "\n";
+                    cout << "\nAviao atual"<< setw(8)  << pistas[i].filaEspera->num << setw(13) << pistas[i].filaEspera->prior << setw(15) << pistas[i].filaEspera->tempoChegada << setw(15) << pistas[i].filaEspera->tempOcupacao << "\n";
                     pistas[i].filaEspera = pistas[i].filaEspera->link;
                 }
                 cout << endl;
