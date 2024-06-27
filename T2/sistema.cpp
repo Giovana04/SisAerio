@@ -17,6 +17,12 @@ void inicializarVoos(aviao*& filaEntrada) {
 }
 
 int main() {
+    Color::Modifier red(Color::FG_RED);
+    Color::Modifier def(Color::FG_DEFAULT);
+    Color::Modifier green(Color::FG_GREEN);
+    Color::Modifier blue(Color::FG_BLUE);
+
+
     pista pistas[3];
     int Tempo = 0, num, prior, tempoOcupacao, tempoChegada;
     inicializapista(pistas);
@@ -26,7 +32,7 @@ int main() {
     processarEntrada(avioes, pistas, Tempo);
 
     while (pistas[0].filaEspera != NULL || pistas[1].filaEspera != NULL || pistas[2].filaEspera != NULL) {
-        cout << "\nTempo: " << Tempo << "\n";
+        cout << red <<"\nTempo: " << Tempo << "\n \n"<< def;
         for (int i = 0; i < 3; ++i) {
             int num, prior, tempoOcupacao, tempoChegada;
 
@@ -45,19 +51,20 @@ int main() {
             }
 
             if (pistas[i].ocupada && pistas[i].aviaoAtual != NULL) {
-                cout << "\nPista " << pistas[i].nome << " ocupada pelo aviao com num: " << pistas[i].aviaoAtual->num << ", prioridade: " << pistas[i].aviaoAtual->prior << ", faltam " << pistas[i].tempoOcupacao << " tempos.\n";
+                cout << green << "Pista " << pistas[i].nome << def <<" ocupada pelo aviao com num: " << pistas[i].aviaoAtual->num << ", prioridade: " << pistas[i].aviaoAtual->prior << ", faltam " << pistas[i].tempoOcupacao << " tempos.";
             } else {
-                cout << "\nPista " << pistas[i].nome << " esta livre.\n";
+                cout << green << "Pista " << pistas[i].nome << def << " esta livre.";
             }
 
             if (pistas[i].filaEspera != NULL) {
                 a = pistas[i].filaEspera;
-                cout << "Lista de espera completa: \n"; 
+                cout << blue << "\nLista de espera completa: \n" <<def; 
                 while (pistas[i].filaEspera != NULL)
                 {
                     cout << "Numero do aviao: " << pistas[i].filaEspera->num << ", prioridade: "<< pistas[i].filaEspera->prior << ", tempo de chegada: "<< pistas[i].filaEspera->tempoChegada << ", tempo que ocupara a pista: " << pistas[i].filaEspera->tempOcupacao << "\n";
                     pistas[i].filaEspera = pistas[i].filaEspera->link;
                 }
+                cout << endl;
                 pistas[i].filaEspera = a;
                 
             } else {
